@@ -1,9 +1,11 @@
-# 
+# Synapse project
+See the [Synapse project](./Synapse Health Technical Assessment.doc)
+The original project file is in src/Original 
 
 ##  Choices made
-1.  I assume the service uses a public API and can't be modified.
-2.  Happy Path with Exception Handling
-	*  A ProblemsDetails object (or something similar) wasn't returned from the POST message, I made the assumption the 'Happy Path' pattern is to be used 
+1.  I assume the service uses a public API that can't be modified.
+2.  I broke the code into 3 parts:  REST API Service, Orders Service, and Alert Service
+	*  Each service is responsible for a single concern:  REST for the API functions, Alert for notifying the user, and Orders for the order management business logic.
 
 ##  Opportunities for improvement
 1.  Logging service:  
@@ -12,5 +14,5 @@
 2.  REST Service:
 	*  This could be implemented as a private nuget package to abstract the REST API details
 	*  Should include Autorization, RequestId, SpanId, ... headers
-	*  Many REST APIs return a ProblemDetails object.  The POST controller endpoint could be enhanced to return a ProblemDetails object.
+	*  Many REST APIs return a ProblemDetails object.  The POST controller endpoint could be enahnced to support a ProblemDetails object.
 	*  The RestService could be enhanced to handle (or retry), circuit breaker, ...  via Polly

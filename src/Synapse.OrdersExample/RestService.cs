@@ -15,6 +15,7 @@ public interface IRestService
     /// </summary>
     /// <param name="url">api url</param>
     /// <returns>TResponse object</returns>
+    /// <exception cref="InvalidGetException">api request failure</exception>
     Task<TResponse?> GetAsync<TResponse>(string url, CancellationToken cancellationToken = default)
         where TResponse : class?;
 
@@ -24,6 +25,7 @@ public interface IRestService
     /// <param name="url">api url</param>
     /// <param name="input">TRequest object</param>
     /// <returns>TResponse object</returns>
+    /// <exception cref="InvalidPostException">api request failure</exception>
     Task<TResponse?> PostAsync<TRequest, TResponse>(string url, TRequest input, CancellationToken cancellationToken = default)
         where TRequest : class
         where TResponse : class?, new();
@@ -63,6 +65,9 @@ public class RestService : IRestService
     /// <param name="url">api url</param>
     /// <param name="ct">cancellation token</param>
     /// <returns>response object</returns>
+    /// <exception cref="InvalidGetException">api request failure</exception>
+    /// <exception cref="OperationCanceledException">operation was cancelled</exception>
+    /// <exception cref="Exception">general catchall exception</exception>
     public async Task<TResponse?> GetAsync<TResponse>(string url, CancellationToken ct = default)
         where TResponse : class?
     {
@@ -109,6 +114,9 @@ public class RestService : IRestService
     /// <param name="input">request object</param>
     /// <param name="ct">cancellation token</param>
     /// <returns>response object</returns>
+    /// <exception cref="InvalidPostException">api request failure</exception>
+    /// <exception cref="OperationCanceledException">operation was cancelled</exception>
+    /// <exception cref="Exception">general catchall exception</exception>
     public async Task<TResponse?> PostAsync<TRequest, TResponse>(string url, TRequest input, CancellationToken ct = default)
         where TRequest : class
         where TResponse : class?, new()
@@ -169,7 +177,8 @@ public class RestService : IRestService
     /// <param name="ct">cancellation token</param>
     /// <returns>void</returns>
     /// <exception cref="InvalidPostException">api request failure</exception>
-    /// <remarks>Post doesn't return response object so assuming "Happy Path with Exception" pattern</remarks>
+    /// <exception cref="OperationCanceledException">operation was cancelled</exception>
+    /// <exception cref="Exception">general catchall exception</exception>
     public async Task PostAsync<TRequest>(string url, TRequest input, CancellationToken ct = default)
     where TRequest : class
     {
