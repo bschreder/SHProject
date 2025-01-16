@@ -1,5 +1,6 @@
 # Synapse project
 See the [Synapse project](./Synapse Health Technical Assessment.doc)
+The updated project is in src/Synapse.OrdersExample with corresponding tests in src/Synapse.OrdersExample.Tests
 The original project file is in src/Original 
 
 ##  Choices made
